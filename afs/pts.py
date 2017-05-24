@@ -6,6 +6,7 @@ try:
 except AttributeError:
     SetMixin = object
 
+
 class PTRelationSet(SetMixin):
     """Collection class for the groups/members of a PTEntry.
 
@@ -251,6 +252,7 @@ class PTEntry(object):
 
     def _get_id(self):
         return self._id
+
     def _set_id(self, val):
         del self._pts._cache[self._id]
         self._pts._ChangeEntry(self.id, newid=val)
@@ -260,6 +262,7 @@ class PTEntry(object):
 
     def _get_name(self):
         return self._name
+
     def _set_name(self, val):
         self._pts._ChangeEntry(self.id, newname=val)
         self._name = val
@@ -267,6 +270,7 @@ class PTEntry(object):
 
     def _get_krbname(self):
         return self._pts._AfsToKrb5(self.name)
+
     def _set_krbname(self, val):
         self.name = self._pts._Krb5ToAfs(val)
     krbname = property(_get_krbname, _set_krbname)
@@ -279,6 +283,7 @@ class PTEntry(object):
     def _get_flags(self):
         self._loadEntry()
         return self._flags
+
     def _set_flags(self, val):
         self._pts._SetFields(self.id, access=val)
         self._flags = val
@@ -287,6 +292,7 @@ class PTEntry(object):
     def _get_ngroups(self):
         self._loadEntry()
         return self._ngroups
+
     def _set_ngroups(self, val):
         self._pts._SetFields(self.id, groups=val)
         self._ngroups = val
@@ -295,6 +301,7 @@ class PTEntry(object):
     def _get_nusers(self):
         self._loadEntry()
         return self._nusers
+
     def _set_nusers(self, val):
         self._pts._SetFields(self.id, users=val)
         self._nusers = val
@@ -303,6 +310,7 @@ class PTEntry(object):
     def _get_owner(self):
         self._loadEntry()
         return self._owner
+
     def _set_owner(self, val):
         self._pts._ChangeEntry(self.id, newoid=self._pts.getEntry(val).id)
         self._owner = val
@@ -319,7 +327,8 @@ class PTEntry(object):
             for field in self._attrs:
                 setattr(self, '_%s' % field, getattr(info, field))
             for field in self._entry_attrs:
-                setattr(self, '_%s' % field, self._pts.getEntry(getattr(info, field)))
+                setattr(self, '_%s' % field, self._pts.getEntry(
+                    getattr(info, field)))
 
 
 PTS_UNAUTH = 0
@@ -406,12 +415,14 @@ class PTS(_pts.PTS):
 
     def _get_umax(self):
         return self._ListMax()[0]
+
     def _set_umax(self, val):
         self._SetMaxUserId(val)
     umax = property(_get_umax, _set_umax)
 
     def _get_gmax(self):
         return self._ListMax()[1]
+
     def _set_gmax(self, val):
         self._SetMaxGroupId(val)
     gmax = property(_get_gmax, _set_gmax)

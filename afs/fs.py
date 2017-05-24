@@ -2,25 +2,25 @@ import errno
 import os.path
 import socket
 import logging
-import math
-import sys
 
 from afs import _fs
 log = logging.getLogger('afs.fs')
+
 
 class AFSVolumeStatus(object):
     def __init__(self, volstat):
         if type(volstat) is not tuple or len(volstat) != 3:
             raise TypeError("AFSVolumeStatus takes a tuple of (str,str,dict)")
-        if [type(x) for x in volstat] != [str,str,dict]:
+        if [type(x) for x in volstat] != [str, str, dict]:
             raise TypeError("AFSVolumeStatus takes a tuple of (str,str,dict)")
         self.name = volstat[0]
         self.offline_message = volstat[1]
-        for k,v in volstat[2].items():
+        for k, v in volstat[2].items():
             setattr(self, k, v)
 
     def __repr__(self):
         return self.__class__.__name__ + ': ' + repr(self.__dict__)
+
 
 def whichcell(path):
     """Return the cell name or None if the path is not in AFS"""
@@ -32,6 +32,7 @@ def whichcell(path):
         else:
             raise
 
+
 def inafs(path):
     """Return True if a path is in AFS."""
     try:
@@ -41,6 +42,7 @@ def inafs(path):
             return False
 
     return True
+
 
 def lsmount(path):
     """Return a volume name for a mountpoint."""
@@ -55,6 +57,7 @@ def lsmount(path):
             return None
         else:
             raise
+
 
 def examine(path):
     """
@@ -80,6 +83,7 @@ def examine(path):
         pass
     return (AFSVolumeStatus(_volstat), _fid)
 
+
 def _reverse_lookup(ip):
     """
     Convenience function to provide best-effort reverse-resolution
@@ -92,6 +96,7 @@ def _reverse_lookup(ip):
     except IndexError:
         log.warning("IndexError while reverse-resolving IP, shouldn't happen")
         return ip
+
 
 def whereis(path, dns=True):
     """
