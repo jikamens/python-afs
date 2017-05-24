@@ -27,7 +27,7 @@ def whichcell(path):
     try:
         return _fs.whichcell(path)
     except OSError as e:
-        if e.errno == errno.EINVAL:
+        if e.errno in (errno.EINVAL, errno.ENOSYS):
             return None
         else:
             raise
@@ -38,7 +38,7 @@ def inafs(path):
     try:
         _fs.whichcell(path)
     except OSError as e:
-        if e.errno in (errno.EINVAL, errno.ENOENT):
+        if e.errno in (errno.EINVAL, errno.ENOENT, errno.ENOSYS):
             return False
 
     return True
@@ -53,7 +53,7 @@ def lsmount(path):
     try:
         return _fs._lsmount(dirname, basename)
     except OSError as e:
-        if e.errno == errno.EINVAL:
+        if e.errno in (errno.EINVAL, errno.ENOSYS):
             return None
         else:
             raise
@@ -72,7 +72,7 @@ def examine(path):
     try:
         _volstat = _fs._volume_status(path)
     except OSError as e:
-        if e.errno == errno.EINVAL:
+        if e.errno in (errno.EINVAL, errno.ENOSYS):
             return None
         else:
             raise
@@ -113,7 +113,7 @@ def whereis(path, dns=True):
         else:
             return addrs
     except OSError as e:
-        if e.errno == errno.EINVAL:
+        if e.errno in (errno.EINVAL, errno.ENOSYS):
             return None
         else:
             raise

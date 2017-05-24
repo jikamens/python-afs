@@ -93,7 +93,7 @@ def _whereis(char* path):
     _whereis(path) -> list()
 
     Low-level implementation of the "whereis" command.  Raises
-    OSError, and EINVAL usually indicates the path isn't in AFS.
+    OSError, and EINVAL or ENOSYS usually indicates the path isn't in AFS.
     Returns a list of IP addresses.  It is the caller's responsibility
     to get hostnames if that's desired.  If anything goes wrong converting
     the 32-bit network numbers into IP addresses, that network number is
