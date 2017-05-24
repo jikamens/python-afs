@@ -378,7 +378,7 @@ class PTS(_pts.PTS):
         if isinstance(ident, PTEntry):
             if ident._pts is not self:
                 raise TypeError("Entry '%s' is from a different cell." %
-                                elt)
+                                ident)
             return ident
 
         elif isinstance(ident, basestring):
